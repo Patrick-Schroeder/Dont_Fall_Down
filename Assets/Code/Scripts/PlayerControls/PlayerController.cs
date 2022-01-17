@@ -1,12 +1,16 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     // Public Variables
     public bool isOnGround;
     public bool canPlayerMove;
+    public bool hasPowerup = false;
+    public List<GameObject> powerupIndicators;
 
     // Private Variables
     // [SerializeField] to make private variables visible in the inspector but not in other classes
@@ -17,11 +21,14 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private float distToGround = 0.5f;
+    private bool canDoubleJump = false;
+    private bool canJumpAgain = false;
     private Vector3 originOffset = new Vector3(0, 0.5f, 0);
     [SerializeField] private GameManager gameManager;
     private Rigidbody playerRb;
     private BoxCollider playerCollider;
     private GameObject focalPoint;
+    private GameObject powerupIndicator;
 
     [SerializeField] GameObject centerOfMass;
 
@@ -50,6 +57,9 @@ public class PlayerController : MonoBehaviour
     {
         Jump();
         MovePlayer();
+
+        if (powerupIndicator != null)
+            powerupIndicator.transform.position = transform.position + new Vector3(0, 1.5f, 0);
     }
 
     private void MovePlayer()
@@ -130,9 +140,16 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && gameManager.isGameActive)
+        canJumpAgain = isOnGround && canDoubleJump ? true : canJumpAgain;
+
+        if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || (canJumpAgain && canDoubleJump)) && gameManager.isGameActive)
         {
+            canJumpAgain = !isOnGround && canJumpAgain ? false : canJumpAgain;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+            // TODO:
+            // FLIEGEN
+
 
             // TODO:
             //playerAnim.SetTrigger("Jump_trig");
@@ -152,5 +169,33 @@ public class PlayerController : MonoBehaviour
         isOnGround = Physics.Raycast(playerCollider.bounds.min + originOffset
             , -Vector3.up,
             distToGround + 0.1f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if collision with a powerup
+        if (other.CompareTag("Powerup"))
+        {
+            hasPowerup = true;
+            canDoubleJump = other.GetComponent<PowerupExtension>().canDoubleJump;
+            canJumpAgain = canDoubleJump;
+
+            var indicatorName = PowerupIndicatorDictionary.PowerupIndicators[other.name];
+            // store currentPowerup
+            powerupIndicator = powerupIndicators.First(p => p.gameObject.name == indicatorName);
+            powerupIndicator.gameObject.SetActive(true);
+            Destroy(other.gameObject);
+            StartCoroutine(PowerupCountdownRoutine(indicatorName));
+        }
+    }
+
+    IEnumerator PowerupCountdownRoutine(string indicatorName)
+    {
+        // Powerup is activated for 10s
+        yield return new WaitForSeconds(10);
+        hasPowerup = false;
+        canDoubleJump = false;
+        canJumpAgain = false;
+        powerupIndicator.gameObject.SetActive(false);
     }
 }

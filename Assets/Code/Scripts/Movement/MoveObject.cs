@@ -25,9 +25,7 @@ public class MoveObject : MonoBehaviour
         {
             if (transform.position.z < startPosition.z + distance)
             {
-                Debug.Log(transform.position.z + " --- " + (startPosition.z - distance));
                 transform.Translate(Vector3.forward * Time.deltaTime * movementSpeed);
-                //transform.position = new Vector3(transform.position.x - movementSpeed, transform.position.y, transform.position.z);
             }
             else if (transform.position.z >= startPosition.z + distance)
                 direction = "backward";
@@ -38,7 +36,6 @@ public class MoveObject : MonoBehaviour
             if (transform.position.z > startPosition.z)
             {
                 transform.Translate(Vector3.back * Time.deltaTime * movementSpeed);
-                //transform.position = new Vector3(transform.position.x + movementSpeed, transform.position.y, transform.position.z);
             }
             else if (transform.position.z <= startPosition.z)
                 direction = "forward";

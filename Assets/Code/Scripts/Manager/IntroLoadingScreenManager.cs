@@ -25,7 +25,7 @@ public class IntroLoadingScreenManager : MonoBehaviour
         versionNumber.text = LoadingData.versionNr;
         LoadingData.sceneToLoad = LevelNames.Tutorial;
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         StartGame();
     }
 
