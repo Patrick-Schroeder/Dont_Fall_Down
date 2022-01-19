@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     // Private Variables
     // [SerializeField] to make private variables visible in the inspector but not in other classes
     private float jumpForce = 2000;
+    private float flyUpwardForce = 1000;
     private float gravityModifier = 3.0f;
     private float power = 1500;
     private float powerModifier = 0.5f;
@@ -22,8 +23,10 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private float distToGround = 0.5f;
     private bool canDoubleJump = false;
+    private bool isFlying = false;
     private bool canJumpAgain = false;
     private Vector3 originOffset = new Vector3(0, 0.5f, 0);
+    private Vector3 powerupIndicatorOffset = new Vector3(0, 0.2f, 0);
     [SerializeField] private GameManager gameManager;
     private Rigidbody playerRb;
     private BoxCollider playerCollider;
@@ -55,11 +58,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Jump();
+        if (!isFlying)
+        {
+            Jump();
+        }
+
         MovePlayer();
 
         if (powerupIndicator != null)
-            powerupIndicator.transform.position = transform.position + new Vector3(0, 1.5f, 0);
+            powerupIndicator.transform.position = transform.position + powerupIndicatorOffset;
     }
 
     private void MovePlayer()
@@ -177,14 +184,21 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Powerup"))
         {
             hasPowerup = true;
-            canDoubleJump = other.GetComponent<PowerupExtension>().canDoubleJump;
+            var ext = other.GetComponent<PowerupExtension>();
+            canDoubleJump = ext.canDoubleJump;
             canJumpAgain = canDoubleJump;
-
+            
             var indicatorName = PowerupIndicatorDictionary.PowerupIndicators[other.name];
             // store currentPowerup
             powerupIndicator = powerupIndicators.First(p => p.gameObject.name == indicatorName);
             powerupIndicator.gameObject.SetActive(true);
             Destroy(other.gameObject);
+
+            if (ext.canFly)
+            {
+                StartCoroutine(FlyRoutine());
+            }
+
             StartCoroutine(PowerupCountdownRoutine(indicatorName));
         }
     }
@@ -196,6 +210,19 @@ public class PlayerController : MonoBehaviour
         hasPowerup = false;
         canDoubleJump = false;
         canJumpAgain = false;
+        isFlying = false;
         powerupIndicator.gameObject.SetActive(false);
+        StopCoroutine(FlyRoutine());
+    }
+    
+    IEnumerator FlyRoutine()
+    {
+        isFlying = true;
+        playerRb.AddForce(Vector3.up * flyUpwardForce, ForceMode.Impulse);
+        playerRb.useGravity = false;
+
+        // Powerup is activated for 10s
+        yield return new WaitForSeconds(10);
+        playerRb.useGravity = true;
     }
 }
