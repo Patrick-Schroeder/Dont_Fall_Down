@@ -6,7 +6,7 @@ public class RotateObject : MonoBehaviour
 {
     // If 'MoveObject' and 'RotateObject' get added to the same object the result is a circular motion
 
-    private float rotateSpeed = 100;
+    [SerializeField] private float rotateSpeed = 100;
 
     // Start is called before the first frame update
     void Start()
