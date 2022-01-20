@@ -14,11 +14,11 @@ public class PlayerController : MonoBehaviour
 
     // Private Variables
     // [SerializeField] to make private variables visible in the inspector but not in other classes
-    private float jumpForce = 2000;
-    private float flyUpwardForce = 1000;
-    private float gravityModifier = 3.0f;
-    private float power = 1500;
-    private float powerModifier = 0.5f;
+    private float jumpForce = 500;
+    private float flyUpwardForce = 200;
+    private float gravityModifier = 1.0f;
+    private float power = 3500;
+    private float airControlModifier = 0.75f;
     private float horizontalInput;
     private float verticalInput;
     private float distToGround = 0.5f;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isFlying = false;
     private bool canJumpAgain = false;
     private Vector3 originOffset = new Vector3(0, 0.5f, 0);
-    private Vector3 powerupIndicatorOffset = new Vector3(0, 0.2f, 0);
+    private Vector3 powerupIndicatorOffset = new Vector3(0, 0.1f, 0);
     [SerializeField] private GameManager gameManager;
     private Rigidbody playerRb;
     private BoxCollider playerCollider;
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // While not on ground the power gets reduced. But the player still can move while Jumping / flying
-        float movePower = isOnGround ? power : power * powerModifier;
+        float movePower = isOnGround ? power : power * airControlModifier;
 
         Vector3 focalPointEulerRotation = focalPoint.transform.rotation.eulerAngles;
 
@@ -120,42 +120,41 @@ public class PlayerController : MonoBehaviour
             // Rotate the player up-right
             RotateOnYAxis(focalPointEulerRotation.y + 45);
             // Move the player up-right
-            playerRb.AddRelativeForce(Vector3.forward * movePower * (horizontalInput / 2 + verticalInput / 2));
+            playerRb.AddRelativeForce(Vector3.forward * movePower * (horizontalInput / 1.75f + verticalInput / 1.75f));
         }
         else if (horizontalInput > 0 && verticalInput < 0) // down-right
         {
             // Rotate the player down-right
             RotateOnYAxis(focalPointEulerRotation.y + 135);
             // Move the player down-right
-            playerRb.AddRelativeForce(((Vector3.back * movePower * verticalInput) + (Vector3.forward * movePower * horizontalInput)) / 2);
+            playerRb.AddRelativeForce(((Vector3.back * movePower * verticalInput) + (Vector3.forward * movePower * horizontalInput)) / 1.75f);
         }
         else if (horizontalInput < 0 && verticalInput > 0) // up-left
         {
             // Rotate the player up-left
             RotateOnYAxis(focalPointEulerRotation.y + 315);
             // Move the player up-left
-            playerRb.AddRelativeForce(((Vector3.forward * movePower * verticalInput) + (Vector3.back * movePower * horizontalInput)) / 2);
+            playerRb.AddRelativeForce(((Vector3.forward * movePower * verticalInput) + (Vector3.back * movePower * horizontalInput)) / 1.75f);
         }
         else if (horizontalInput < 0 && verticalInput < 0) // down-left
         {
             // Rotate the player down-left
             RotateOnYAxis(focalPointEulerRotation.y + 225);
             // Move the player down-left
-            playerRb.AddRelativeForce(Vector3.back * movePower * (horizontalInput / 2 + verticalInput / 2));
+            playerRb.AddRelativeForce(Vector3.back * movePower * (horizontalInput / 1.75f + verticalInput / 1.75f));
         }
     }
 
     private void Jump()
     {
-        canJumpAgain = isOnGround && canDoubleJump ? true : canJumpAgain;
+        canJumpAgain = isOnGround || canJumpAgain;
+
+        Debug.Log(canJumpAgain + Time.frameCount.ToString());
 
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || (canJumpAgain && canDoubleJump)) && gameManager.isGameActive)
         {
-            canJumpAgain = !isOnGround && canJumpAgain ? false : canJumpAgain;
+            canJumpAgain = isOnGround || !canJumpAgain;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            // TODO:
-            // FLIEGEN
 
 
             // TODO:
@@ -181,7 +180,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if collision with a powerup
-        if (other.CompareTag("Powerup"))
+        if (other.CompareTag("Powerup") && !hasPowerup)
         {
             hasPowerup = true;
             var ext = other.GetComponent<PowerupExtension>();
