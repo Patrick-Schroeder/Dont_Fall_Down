@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        var playerAnim = GameObject.Find("Player").GetComponent<Animator>();
+        playerAnim.SetBool("Death_b", true);
+        playerAnim.SetInteger("DeathType_int", 1);
+
         restartButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
         isGameActive = false;

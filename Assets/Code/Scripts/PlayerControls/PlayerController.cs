@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 powerupIndicatorOffset = new Vector3(0, 0.1f, 0);
     [SerializeField] private GameManager gameManager;
     private Rigidbody playerRb;
+    private Animator playerAnim;
     private BoxCollider playerCollider;
     private AudioSource playerAudio;
     private GameObject focalPoint;
     private GameObject powerupIndicator;
-
     [SerializeField] GameObject centerOfMass;
 
     // Start is called before the first frame update
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
         playerRb.centerOfMass = centerOfMass.transform.position;
         playerAudio = GetComponent<AudioSource>();
         focalPoint = GameObject.Find(TagsAndNames.FocalPoint);
+        playerAnim = GetComponent<Animator>();
     }
 
     // 'FixedUpdate' called before 'Update' calls and happens when the game is trying to calculate any kind of physics
@@ -64,6 +65,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //playerAnim.SetBool("Death_b", true);
+        //playerAnim.SetInteger("DeathType_int", 1);
+        //playerAnim.SetTrigger("Jump_trig");
+
         if (!isFlying)
         {
             Jump();
@@ -85,14 +90,24 @@ public class PlayerController : MonoBehaviour
             || !canPlayerMove
             || !gameManager.isGameActive)
         {
+            playerAnim.SetFloat("Speed_f", 0.1f);
             return;
         }
 
         walkSoundTimer += Time.deltaTime;
-        if (isOnGround && walkSoundTimer > walkSoundWaitingTime)
+        if (isOnGround)
         {
-            playerAudio.PlayOneShot(walkSound, 0.9f);
-            walkSoundTimer = 0;
+            if (verticalInput != 0 || horizontalInput != 0)
+            {
+                Debug.Log("verticalInput: " + verticalInput + " --- horizontalInput: " + horizontalInput);
+                playerAnim.SetFloat("Speed_f", 0.6f);
+            }
+
+            if (walkSoundTimer > walkSoundWaitingTime)
+            {
+                playerAudio.PlayOneShot(walkSound, 0.9f);
+                walkSoundTimer = 0;
+            }
         }
 
         // While not on ground the power gets reduced. But the player still can move while Jumping / flying
@@ -186,6 +201,8 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             playerAudio.PlayOneShot(jumpSound, 2.0f);
+
+            playerAnim.SetTrigger("Jump_trig");
         }
     }
 
