@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public bool canPlayerMove;
     public bool hasPowerup = false;
     public List<GameObject> powerupIndicators;
+    public AudioClip walkSound;
+    public AudioClip jumpSound;
 
     // Private Variables
     // [SerializeField] to make private variables visible in the inspector but not in other classes
@@ -22,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private float distToGround = 0.5f;
+    private float walkSoundWaitingTime = 0.3f;
+    private float walkSoundTimer;
     private bool canDoubleJump = false;
     private bool isFlying = false;
     private bool canJumpAgain = false;
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     private Rigidbody playerRb;
     private BoxCollider playerCollider;
+    private AudioSource playerAudio;
     private GameObject focalPoint;
     private GameObject powerupIndicator;
 
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<BoxCollider>();
         playerRb.centerOfMass = centerOfMass.transform.position;
+        playerAudio = GetComponent<AudioSource>();
         focalPoint = GameObject.Find(TagsAndNames.FocalPoint);
     }
 
@@ -82,10 +88,35 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        walkSoundTimer += Time.deltaTime;
+        if (isOnGround && walkSoundTimer > walkSoundWaitingTime)
+        {
+            playerAudio.PlayOneShot(walkSound, 0.9f);
+            walkSoundTimer = 0;
+        }
+
         // While not on ground the power gets reduced. But the player still can move while Jumping / flying
         float movePower = isOnGround ? power : power * airControlModifier;
 
         Vector3 focalPointEulerRotation = focalPoint.transform.rotation.eulerAngles;
+
+        //// TODO:
+        //// Steuerung überarbeiten:
+        ////
+        //// Bsp.:
+        //// 1) Links = 1, Up = 0.1(1 / 0.1 = 10)
+        //// => Vektor nach links + 4.5° (10 % von 90°/ 2) nach oben
+        //// 2) Links = 0.3, Up = 0.1(0.3 / 0.1 = 3)
+        //// => 45° *(1 / 3) nach oben. 30°
+        //// 3) Links = 0.5, Up = 0.5(0.5 / 0.5 = 1)
+        //// => 45° *1 nach oben. 45°
+        ////
+        //// 4) Links = 0.1, Up = 1(0.1 / 1 = 0.1)
+        //// => Vektor nach oben + 4.5° (10 % von 90°/ 2) nach links
+        //// 5) Links = 0.1, Up = 0.3(0.1 / 0.3 = 0.333)
+        ////
+        //// => Quotient < 1, dann * 100 und von oben nach links
+        //// hVInput = left + up < 1 ? left + up : 1;
 
         if (horizontalInput > 0 && verticalInput == 0) // right
         {
@@ -149,18 +180,12 @@ public class PlayerController : MonoBehaviour
     {
         canJumpAgain = isOnGround || canJumpAgain;
 
-        Debug.Log(canJumpAgain + Time.frameCount.ToString());
-
         if (Input.GetKeyDown(KeyCode.Space) && (isOnGround || (canJumpAgain && canDoubleJump)) && gameManager.isGameActive)
         {
             canJumpAgain = isOnGround || !canJumpAgain;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-
-            // TODO:
-            //playerAnim.SetTrigger("Jump_trig");
-            //dirtParticle.Stop();
-            //playerAudio.PlayOneShot(jumpSound, 1.0f);
+            playerAudio.PlayOneShot(jumpSound, 2.0f);
         }
     }
 
