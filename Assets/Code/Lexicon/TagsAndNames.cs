@@ -7,4 +7,6 @@ public static class TagsAndNames
     public const string MouseX = "Mouse X";
     public const string MouseY = "Mouse Y";
     public const string FocalPoint = "Focal Point";
+    public const string Powerup = "Powerup";
+    public const string Finish = "Finish";
 }

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public GameObject menuScreen;
+    public GameObject finishScreen;
+    public ParticleSystem finishParticle;
     public float obstacleSpeed = 1.0f;
     public bool isGameActive;
     public int score;
@@ -19,7 +21,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        finishParticle.Stop();
     }
 
     // Update is called once per frame
@@ -47,6 +49,14 @@ public class GameManager : MonoBehaviour
         ActivateMouse();
     }
 
+    public void GameFinished()
+    {
+        isGameActive = false;
+        finishParticle.Play();
+        finishScreen.gameObject.SetActive(true);
+        ActivateMouse();
+    }
+
     public void RestartScene()
     {
         LoadingData.isSceneInitialized = true;
@@ -64,6 +74,11 @@ public class GameManager : MonoBehaviour
         UpdateScore(0);
 
         menuScreen.gameObject.SetActive(false);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ActivateObject(GameObject obj)

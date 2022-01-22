@@ -65,10 +65,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //playerAnim.SetBool("Death_b", true);
-        //playerAnim.SetInteger("DeathType_int", 1);
-        //playerAnim.SetTrigger("Jump_trig");
-
         if (!isFlying)
         {
             Jump();
@@ -99,7 +95,6 @@ public class PlayerController : MonoBehaviour
         {
             if (verticalInput != 0 || horizontalInput != 0)
             {
-                Debug.Log("verticalInput: " + verticalInput + " --- horizontalInput: " + horizontalInput);
                 playerAnim.SetFloat("Speed_f", 0.6f);
             }
 
@@ -222,7 +217,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if collision with a powerup
-        if (other.CompareTag("Powerup") && !hasPowerup)
+        if (other.CompareTag(TagsAndNames.Powerup) && !hasPowerup)
         {
             hasPowerup = true;
             var ext = other.GetComponent<PowerupExtension>();
@@ -241,6 +236,16 @@ public class PlayerController : MonoBehaviour
             }
 
             StartCoroutine(PowerupCountdownRoutine(indicatorName));
+        }
+
+        // Check if collision with Finish_Platform
+        if (other.CompareTag(TagsAndNames.Finish))
+        {
+            canPlayerMove = false;
+            playerRb.MovePosition(other.transform.position);
+            RotateOnYAxis(focalPoint.transform.rotation.eulerAngles.y + 180);
+            playerAnim.SetTrigger("Jump_trig");
+            gameManager.GameFinished();
         }
     }
 
