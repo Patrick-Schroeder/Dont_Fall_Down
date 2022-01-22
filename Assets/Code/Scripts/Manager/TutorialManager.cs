@@ -1,11 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class TutorialManager : GameManager
+public class TutorialManager : MonoBehaviour
 {
+    private GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find(TagsAndNames.GameManager).GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -17,12 +24,39 @@ public class TutorialManager : GameManager
     public void SkipTutorial()
     {
         LoadingData.isSceneInitialized = false;
-        SceneManager.LoadScene(LevelNames.Level1);
+        SceneManager.LoadSceneAsync(LevelNames.Level1, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(LevelNames.Tutorial);
     }
 
-    public override void StartGame(int difficulty)
+    public void StartGame()
     {
-        isGameActive = true;
-        playerController.canPlayerMove = true;
+        SceneManager.UnloadSceneAsync(LevelNames.Intro);
+        gameManager.isGameActive = true;
+        gameManager.playerController.canPlayerMove = true;
+    }
+
+    public void ActivateObject(GameObject obj)
+    {
+        ActivationMethods.ActivateObject(obj);
+    }
+
+    public void DeactivateObject(GameObject obj)
+    {
+        ActivationMethods.DeactivateObject(obj);
+    }
+
+    public void ActivateMouse()
+    {
+        ActivationMethods.ActivateMouse();
+    }
+
+    public void DeactivateMouse()
+    {
+        ActivationMethods.DeactivateMouse();
+    }
+
+    public void ActivatePlayerMovement()
+    {
+        gameManager.playerController.canPlayerMove = true;
     }
 }

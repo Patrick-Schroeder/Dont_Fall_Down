@@ -7,21 +7,26 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerController playerController;
+    public GameObject player;
+    internal PlayerController playerController;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
-    public GameObject menuScreen;
     public GameObject finishScreen;
     public ParticleSystem finishParticle;
+    public Animator playerAnim;
     public float obstacleSpeed = 1.0f;
     public bool isGameActive;
-    public int score;
+    public int score; // Total score
+    public int temporaryScore; // If level gets resetted then reset temporaryScore to 'score'. If player wins then score = temporaryScore
 
     // Start is called before the first frame update
     void Start()
     {
-        finishParticle.Stop();
+        playerController = player.GetComponent<PlayerController>();
+        playerAnim = player.GetComponent<Animator>();
+
+        LoadingData.gameManager = gameObject.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -32,13 +37,12 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int scoreToAdd)
     {
-        score += scoreToAdd;
-        scoreText.text = "Score: " + score;
+        temporaryScore += scoreToAdd;
+        scoreText.text = "Score: " + temporaryScore;
     }
 
     public void GameOver()
     {
-        var playerAnim = GameObject.Find("Player").GetComponent<Animator>();
         playerAnim.SetBool("Death_b", true);
         playerAnim.SetInteger("DeathType_int", 1);
 
@@ -51,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public void GameFinished()
     {
+        score = temporaryScore;
         isGameActive = false;
         finishParticle.Play();
         finishScreen.gameObject.SetActive(true);
@@ -59,8 +64,17 @@ public class GameManager : MonoBehaviour
 
     public void RestartScene()
     {
-        LoadingData.isSceneInitialized = true;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        player.transform.position = Vector3.zero;
+        temporaryScore = score;
+
+        isGameActive = true;
+        playerController.canPlayerMove = true;
+        playerAnim.SetBool("Death_b", false);
+
+        restartButton.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+
+        DeactivateMouse();
     }
 
     public virtual void StartGame(int difficulty)
@@ -72,13 +86,15 @@ public class GameManager : MonoBehaviour
         obstacleSpeed *= difficulty;
 
         UpdateScore(0);
-
-        menuScreen.gameObject.SetActive(false);
     }
 
     public void LoadNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        player.transform.position = Vector3.zero;
+
+        // TODO: Jedes Level möglich machen
+        SceneManager.UnloadSceneAsync(LevelNames.Tutorial);
+        SceneManager.LoadSceneAsync(LevelNames.Level1, LoadSceneMode.Additive);
     }
 
     public void ActivateObject(GameObject obj)

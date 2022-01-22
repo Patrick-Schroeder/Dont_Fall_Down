@@ -23,9 +23,7 @@ public class IntroLoadingScreenManager : MonoBehaviour
         percentageLoaded = GameObject.Find("PercentageLoaded").GetComponent<TextMeshProUGUI>();
 
         versionNumber.text = LoadingData.versionNr;
-        LoadingData.sceneToLoad = LevelNames.Tutorial;
 
-        //DontDestroyOnLoad(gameObject);
         StartGame();
     }
 
@@ -45,7 +43,7 @@ public class IntroLoadingScreenManager : MonoBehaviour
         loadingScreen.SetActive(true);
         yield return StartCoroutine(FadeLoadingScreen(1, fadeLoadingScreenInSecs));
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(LoadingData.sceneToLoad);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(LevelNames.Tutorial, LoadSceneMode.Additive);
         while (!operation.isDone)
         {
             progressBar.value = Mathf.Clamp01(operation.progress / 0.9f);

@@ -9,4 +9,5 @@ public static class TagsAndNames
     public const string FocalPoint = "Focal Point";
     public const string Powerup = "Powerup";
     public const string Finish = "Finish";
+    public const string MenuScreen = "MenuScreen";
 }

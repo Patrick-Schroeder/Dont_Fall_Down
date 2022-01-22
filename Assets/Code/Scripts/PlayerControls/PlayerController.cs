@@ -84,7 +84,8 @@ public class PlayerController : MonoBehaviour
 
         if ((verticalInput == 0 && horizontalInput == 0)
             || !canPlayerMove
-            || !gameManager.isGameActive)
+            || !gameManager.isGameActive
+            )
         {
             playerAnim.SetFloat("Speed_f", 0.1f);
             return;
