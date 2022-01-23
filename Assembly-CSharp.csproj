@@ -59,17 +59,21 @@
     <Compile Include="Assets\Code\Scripts\Methods\ActivationMethods.cs" />
     <Compile Include="Assets\Code\Scripts\Movement\RotateObject.cs" />
     <Compile Include="Assets\Code\Scripts\PlayerControls\RotateCamera.cs" />
+    <Compile Include="Assets\Code\Lexicon\PowerupIndicatorDictionary.cs" />
     <Compile Include="Assets\Code\Scripts\Manager\IntroLoadingScreenManager.cs" />
     <Compile Include="Assets\Code\Lexicon\LoadingData.cs" />
     <Compile Include="Assets\Code\Scripts\PlayerControls\OpenMenu.cs" />
     <Compile Include="Assets\Code\Scripts\PlayerControls\FollowPlayer.cs" />
     <Compile Include="Assets\Code\Scripts\Movement\MoveObject.cs" />
     <Compile Include="Assets\Code\Scripts\Manager\TutorialManager.cs" />
+    <Compile Include="Assets\Code\Scripts\ObjectExtensions\PowerupExtension.cs" />
     <Compile Include="Assets\Code\Lexicon\TagsAndNames.cs" />
     <Compile Include="Assets\Code\Scripts\ObjectExtensions\CheckpointCollision.cs" />
     <Compile Include="Assets\Code\Scripts\Sensors\DeathSensor.cs" />
-    <Compile Include="Assets\Code\Lexicon\PowerupIndicatorDictionary.cs" />
-    <Compile Include="Assets\Code\Scripts\ObjectExtensions\PowerupExtension.cs" />
+    <Compile Include="Assets\Code\Scripts\Manager\DifficultyButtonManager.cs" />
+    <Compile Include="Assets\Code\Scripts\ObjectExtensions\GemExtension.cs" />
+    <Compile Include="Assets\Code\Scripts\ObjectExtensions\CanonExtension.cs" />
+    <Compile Include="Assets\Code\Scripts\ObjectExtensions\CanonballExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

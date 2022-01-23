@@ -24,5 +24,10 @@ public class DeathSensor : MonoBehaviour
         {
             gameManager.GameOver();
         }
+
+        if (other.CompareTag(TagsAndNames.Canonball))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

@@ -10,4 +10,5 @@ public static class TagsAndNames
     public const string Powerup = "Powerup";
     public const string Finish = "Finish";
     public const string MenuScreen = "MenuScreen";
+    public const string Canonball = "Canonball";
 }

@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public GameObject finishScreen;
     public ParticleSystem finishParticle;
     public Animator playerAnim;
-    public float obstacleSpeed = 1.0f;
     public bool isGameActive;
     public int score; // Total score
     public int temporaryScore; // If level gets resetted then reset temporaryScore to 'score'. If player wins then score = temporaryScore
@@ -25,8 +24,6 @@ public class GameManager : MonoBehaviour
     {
         playerController = player.GetComponent<PlayerController>();
         playerAnim = player.GetComponent<Animator>();
-
-        LoadingData.gameManager = gameObject.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -83,18 +80,24 @@ public class GameManager : MonoBehaviour
         playerController.canPlayerMove = true;
         score = 0;
 
-        obstacleSpeed *= difficulty;
+        LoadingData.difficulty = difficulty;
 
         UpdateScore(0);
+    }
+
+    public void ActivateScoreText()
+    {
+        scoreText.gameObject.SetActive(true);
     }
 
     public void LoadNextLevel()
     {
         player.transform.position = Vector3.zero;
 
-        // TODO: Jedes Level möglich machen
-        SceneManager.UnloadSceneAsync(LevelNames.Tutorial);
-        SceneManager.LoadSceneAsync(LevelNames.Level1, LoadSceneMode.Additive);
+        var sceneName = SceneManager.GetSceneAt(SceneManager.sceneCount - 1).name;
+        var nextSceneName = LevelNames.GetNextLevelName(sceneName);
+        SceneManager.UnloadSceneAsync(sceneName);
+        SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
     }
 
     public void ActivateObject(GameObject obj)
