@@ -2802,6 +2802,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 534270800021319382, guid: 6a8d0b05119b7f14fa3051d318b89839, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 534270800594072809, guid: 6a8d0b05119b7f14fa3051d318b89839, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2971,6 +2975,10 @@ PrefabInstance:
     - target: {fileID: 2043336864490940551, guid: 173f1d55337d5ed4db275ed70635a587, type: 3}
       propertyPath: m_Name
       value: Indicator_Fly
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043336864490940551, guid: 173f1d55337d5ed4db275ed70635a587, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 173f1d55337d5ed4db275ed70635a587, type: 3}

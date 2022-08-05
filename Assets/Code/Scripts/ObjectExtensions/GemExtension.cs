@@ -24,8 +24,6 @@ public class GemExtension : MonoBehaviour
     {
         if (other.CompareTag(TagsAndNames.Player))
         {
-            Debug.Log(pointValue);
-
             Destroy(gameObject);
             gameManager.UpdateScore(pointValue);
         }

@@ -22,6 +22,8 @@ public class CanonExtension : MonoBehaviour
         if (!isInstantiated && LoadingData.difficulty > 0)
         {
             isInstantiated = true;
+
+            // 'Update' und nicht 'Start', da LoadingData.difficulty manuell vom User gesetzt wird ('Start' dann bereits durchgelaufen)
             InvokeRepeating("SpawnCannonball", startDelay, reloadTime / LoadingData.difficulty);
         }
     }
