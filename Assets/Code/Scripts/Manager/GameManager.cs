@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +15,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
+    public Button exitGameButton;
     public GameObject finishScreen;
     public ParticleSystem finishParticle;
     public Animator playerAnim;
@@ -24,6 +28,15 @@ public class GameManager : MonoBehaviour
     {
         playerController = player.GetComponent<PlayerController>();
         playerAnim = player.GetComponent<Animator>();
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit(); // original code to quit Unity player
+#endif
     }
 
     // Update is called once per frame
@@ -44,6 +57,7 @@ public class GameManager : MonoBehaviour
         playerAnim.SetInteger("DeathType_int", 1);
 
         restartButton.gameObject.SetActive(true);
+        exitGameButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
         isGameActive = false;
         playerController.canPlayerMove = false;
@@ -69,6 +83,7 @@ public class GameManager : MonoBehaviour
         playerAnim.SetBool("Death_b", false);
 
         restartButton.gameObject.SetActive(false);
+        exitGameButton.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
 
         DeactivateMouse();

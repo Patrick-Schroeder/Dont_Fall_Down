@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class OpenMenu : MonoBehaviour
 {
     public Button restartbutton;
+    public Button exitGameButton;
 
     private Button button;
 
@@ -27,15 +28,24 @@ public class OpenMenu : MonoBehaviour
 
     private void OpenCloseMenu()
     {
+        GameObject player = GameObject.Find(TagsAndNames.Player);
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        
         if (Cursor.lockState == CursorLockMode.None)
         {
             ActivationMethods.DeactivateMouse();
             restartbutton.gameObject.SetActive(false);
+            exitGameButton.gameObject.SetActive(false);
+
+            playerController.canPlayerMove = true;
         }
         else
         {
             ActivationMethods.ActivateMouse();
             restartbutton.gameObject.SetActive(true);
+            exitGameButton.gameObject.SetActive(true);
+
+            playerController.canPlayerMove = false;
         }
     }
 }
