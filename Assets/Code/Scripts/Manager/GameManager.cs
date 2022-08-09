@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,12 +11,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public TextMeshProUGUI Username;
+    public TMP_InputField UsernameInputField;
+
     public GameObject player;
     internal PlayerController playerController;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
-    public Button restartButton;
-    public Button exitGameButton;
+    public GameObject subMenu;
     public GameObject finishScreen;
     public ParticleSystem finishParticle;
     public Animator playerAnim;
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
     {
         playerController = player.GetComponent<PlayerController>();
         playerAnim = player.GetComponent<Animator>();
+
+        LoadUserData();
     }
 
     public void ExitGame()
@@ -56,8 +61,9 @@ public class GameManager : MonoBehaviour
         playerAnim.SetBool("Death_b", true);
         playerAnim.SetInteger("DeathType_int", 1);
 
-        restartButton.gameObject.SetActive(true);
-        exitGameButton.gameObject.SetActive(true);
+        subMenu.SetActive(true);
+        UiManager.SetChildrenActive(subMenu, true);
+
         gameOverText.gameObject.SetActive(true);
         isGameActive = false;
         playerController.canPlayerMove = false;
@@ -82,8 +88,9 @@ public class GameManager : MonoBehaviour
         playerController.canPlayerMove = true;
         playerAnim.SetBool("Death_b", false);
 
-        restartButton.gameObject.SetActive(false);
-        exitGameButton.gameObject.SetActive(false);
+        subMenu.SetActive(false);
+        UiManager.SetChildrenActive(subMenu, false);
+
         gameOverText.gameObject.SetActive(false);
 
         DeactivateMouse();
@@ -138,5 +145,46 @@ public class GameManager : MonoBehaviour
     public void ActivatePlayerMovement()
     {
         playerController.canPlayerMove = true;
+    }
+
+    // Most of the time you won’t save everything inside your classes. It’s good practice and more efficient to use a small class that only contains the specific data that you want to save.
+    [System.Serializable]
+    class SaveData
+    {
+        public string Username;
+    }
+
+    public void SaveUserData()
+    {
+        if (string.IsNullOrEmpty(UsernameInputField.text))
+            return;
+
+        playerController.PlayerName = UsernameInputField.text;
+        Username.text = playerController.PlayerName;
+
+        SaveData data = new SaveData();
+        data.Username = playerController.PlayerName;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadUserData()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            playerController.PlayerName = data.Username;
+        }
+        else
+        {
+            playerController.PlayerName = "UsernameTest";
+        }
+
+        Username.text = playerController.PlayerName;
     }
 }

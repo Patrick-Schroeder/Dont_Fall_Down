@@ -7,6 +7,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     // Public Variables
+    public string PlayerName;
     public bool isOnGround;
     public bool canPlayerMove;
     public bool hasPowerup = false;
