@@ -5,29 +5,29 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637952981083946684
-    m_Hash: 3292999341
+      ticks: 638025491593329293
+    m_Hash: 947221640
   m_LockFileStatus:
     m_FilePath: C:/Users/Patri/Unity/Eigene Spiele/Dont_Fall_Down/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637952981163796569
-    m_Hash: 2766017869
+      ticks: 638025491677915679
+    m_Hash: 769716453
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/Patri/Unity/Eigene Spiele/Dont_Fall_Down/Packages
-m_EditorVersion: 2021.3.7f1 (24e8595d6d43)
+m_EditorVersion: 2021.3.12f1 (8af3c3e441b1)
 m_ResolvedPackages:
-- packageId: com.unity.collab-proxy@1.17.1
+- packageId: com.unity.collab-proxy@1.17.2
   testable: 0
   isDirectDependency: 1
-  version: 1.17.1
+  version: 1.17.2
   source: 1
-  resolvedPath: C:\Users\Patri\Unity\Eigene Spiele\Dont_Fall_Down\Library\PackageCache\com.unity.collab-proxy@1.17.1
+  resolvedPath: C:\Users\Patri\Unity\Eigene Spiele\Dont_Fall_Down\Library\PackageCache\com.unity.collab-proxy@1.17.2
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
   displayName: Version Control
@@ -36,7 +36,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: Editor
-  type: 
+  type: asset
   description: The Version Control package gives you the ability to use either Collaborate
     or Plastic SCM for Unity (beta) in the Unity editor. To use Plastic SCM for Unity
     (beta), a Plastic SCM subscription is required. Learn more about how you can
@@ -95,6 +95,7 @@ m_ResolvedPackages:
     - 1.17.0
     - 1.17.1
     - 1.17.2
+    - 1.17.6
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -106,8 +107,8 @@ m_ResolvedPackages:
     - 2.1.0-preview.5
     - 2.1.0-preview.6
     compatible:
-    - 1.17.1
     - 1.17.2
+    - 1.17.6
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -118,13 +119,13 @@ m_ResolvedPackages:
     - 2.1.0-preview.3
     - 2.1.0-preview.5
     - 2.1.0-preview.6
-    verified: 1.17.2
+    verified: 1.17.6
   dependencies:
   - name: com.unity.services.core
     version: 1.0.1
   resolvedDependencies:
   - name: com.unity.services.core
-    version: 1.4.2
+    version: 1.4.3
   - name: com.unity.modules.unitywebrequest
     version: 1.0.0
   - name: com.unity.nuget.newtonsoft-json
@@ -152,18 +153,18 @@ m_ResolvedPackages:
     scopes: []
     isDefault: 1
     capabilities: 7
-  hideInEditor: 1
+  hideInEditor: 0
   isAssetStorePackage: 0
-  datePublishedTicks: 637916644700000000
+  datePublishedTicks: 637937432480000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.cloud.collaborate.git
-    revision: 2346af88036ac7256d898e0bb536f60220ce6e18
+    revision: 14d129dcc778f8ea2fdf9d0240b47924e4f0dbb1
     path: 
   unityLifecycle:
-    version: 1.17.1
+    version: 1.17.2
     nextVersion: 
 - packageId: com.unity.connect.share@4.2.3
   testable: 0
@@ -266,7 +267,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: 
+  type: asset
   description: The JetBrains Rider Editor package provides an integration for using
     the JetBrains Rider IDE as a code editor for Unity. It adds support for generating
     .csproj files for code completion and auto-discovery of installations.
@@ -305,9 +306,11 @@ m_ResolvedPackages:
     - 3.0.13
     - 3.0.14
     - 3.0.15
+    - 3.0.16
     compatible:
     - 3.0.15
-    verified: 3.0.15
+    - 3.0.16
+    verified: 3.0.16
   dependencies:
   - name: com.unity.ext.nunit
     version: 1.0.6
@@ -322,7 +325,7 @@ m_ResolvedPackages:
     scopes: []
     isDefault: 1
     capabilities: 7
-  hideInEditor: 1
+  hideInEditor: 0
   isAssetStorePackage: 0
   datePublishedTicks: 637914298700000000
   documentationUrl: 
@@ -487,7 +490,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: Unity Test Framework
-  type: 
+  type: asset
   description: Test framework for running Edit mode and Play mode tests in Unity.
   status: 4
   errors: []
@@ -527,12 +530,14 @@ m_ResolvedPackages:
     - 1.1.30
     - 1.1.31
     - 1.1.33
+    - 1.3.0
     - 2.0.1-exp.1
     - 2.0.1-pre.12
     - 2.0.1-pre.18
     compatible:
     - 1.1.31
     - 1.1.33
+    - 1.3.0
     - 2.0.1-exp.1
     - 2.0.1-pre.12
     - 2.0.1-pre.18
@@ -561,7 +566,7 @@ m_ResolvedPackages:
     scopes: []
     isDefault: 1
     capabilities: 7
-  hideInEditor: 1
+  hideInEditor: 0
   isAssetStorePackage: 0
   datePublishedTicks: 637804266210000000
   documentationUrl: 
@@ -753,7 +758,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: 
+  type: asset
   description: Use Unity Timeline to create cinematic content, game-play sequences,
     audio sequences, and complex particle effects.
   status: 4
@@ -832,12 +837,14 @@ m_ResolvedPackages:
     - 1.7.0-pre.2
     - 1.7.0
     - 1.7.1
+    - 1.7.2
     compatible:
     - 1.6.4
     - 1.7.0-pre.1
     - 1.7.0-pre.2
     - 1.7.0
     - 1.7.1
+    - 1.7.2
     verified: 1.6.4
   dependencies:
   - name: com.unity.modules.director
@@ -870,7 +877,7 @@ m_ResolvedPackages:
     scopes: []
     isDefault: 1
     capabilities: 7
-  hideInEditor: 1
+  hideInEditor: 0
   isAssetStorePackage: 0
   datePublishedTicks: 637789039180000000
   documentationUrl: 
@@ -2860,12 +2867,12 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 1.0.3
     nextVersion: 
-- packageId: com.unity.services.core@1.4.2
+- packageId: com.unity.services.core@1.4.3
   testable: 0
   isDirectDependency: 0
-  version: 1.4.2
+  version: 1.4.3
   source: 1
-  resolvedPath: C:\Users\Patri\Unity\Eigene Spiele\Dont_Fall_Down\Library\PackageCache\com.unity.services.core@1.4.2
+  resolvedPath: C:\Users\Patri\Unity\Eigene Spiele\Dont_Fall_Down\Library\PackageCache\com.unity.services.core@1.4.3
   assetPath: Packages/com.unity.services.core
   name: com.unity.services.core
   displayName: Services Core
@@ -2874,7 +2881,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: 
+  type: asset
   description: 'This package defines common components used by multiple Game Service
     packages.
 
@@ -2898,9 +2905,12 @@ m_ResolvedPackages:
     - 1.4.0
     - 1.4.1
     - 1.4.2
+    - 1.4.3
+    - 1.5.2
     compatible:
-    - 1.4.2
-    verified: 1.4.2
+    - 1.4.3
+    - 1.5.2
+    verified: 1.4.3
   dependencies:
   - name: com.unity.modules.unitywebrequest
     version: 1.0.0
@@ -2923,18 +2933,18 @@ m_ResolvedPackages:
     scopes: []
     isDefault: 1
     capabilities: 7
-  hideInEditor: 1
+  hideInEditor: 0
   isAssetStorePackage: 0
-  datePublishedTicks: 637919618520000000
+  datePublishedTicks: 637959096350000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/operate-services-sdk.git
-    revision: 3964d1641ebec474aa425853985bccbdb89c2a49
+    revision: 145c9bbe93bde4784d4641e172be4ca40a3745fc
     path: 
   unityLifecycle:
-    version: 1.4.2
+    version: 1.4.3
     nextVersion: 
 - packageId: com.unity.nuget.newtonsoft-json@3.0.2
   testable: 0

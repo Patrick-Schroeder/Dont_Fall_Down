@@ -32,7 +32,7 @@ public class TutorialManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync(LevelNames.Intro);
         gameManager.isGameActive = true;
-        gameManager.playerController.canPlayerMove = true;
+        gameManager.playerController.CanPlayerMove = true;
     }
 
     public void ActivateObject(GameObject obj)
@@ -57,6 +57,6 @@ public class TutorialManager : MonoBehaviour
 
     public void ActivatePlayerMovement()
     {
-        gameManager.playerController.canPlayerMove = true;
+        gameManager.playerController.CanPlayerMove = true;
     }
 }

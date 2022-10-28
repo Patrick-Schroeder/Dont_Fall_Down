@@ -1,22 +1,21 @@
-using UnityEngine;
-using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     // Public Variables
-    public string PlayerName;
-    public bool isOnGround;
-    public bool canPlayerMove;
-    public bool hasPowerup = false;
-    public List<GameObject> powerupIndicators;
-    public AudioClip walkSound;
-    public AudioClip jumpSound;
+    public string PlayerName { get; set; } // private set
+    public bool CanPlayerMove { get; set; } // private set
 
     // Private Variables
     // [SerializeField] to make private variables visible in the inspector but not in other classes
+    [SerializeField] private bool isOnGround;
+    [SerializeField] private bool hasPowerup = false;
+    [SerializeField] private List<GameObject> powerupIndicators;
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip jumpSound;
     private float jumpForce = 500;
     private float flyUpwardForce = 200;
     private float gravityModifier = 1.0f;
@@ -84,7 +83,7 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis(TagsAndNames.Vertical);
 
         if ((verticalInput == 0 && horizontalInput == 0)
-            || !canPlayerMove
+            || !CanPlayerMove
             || !gameManager.isGameActive
             )
         {
@@ -225,7 +224,7 @@ public class PlayerController : MonoBehaviour
             var ext = other.GetComponent<PowerupExtension>();
             canDoubleJump = ext.canDoubleJump;
             canJumpAgain = canDoubleJump;
-            
+
             var indicatorName = PowerupIndicatorDictionary.PowerupIndicators[other.name];
             // store currentPowerup
             powerupIndicator = powerupIndicators.First(p => p.gameObject.name == indicatorName);
@@ -243,7 +242,7 @@ public class PlayerController : MonoBehaviour
         // Check if collision with Finish_Platform
         if (other.CompareTag(TagsAndNames.Finish))
         {
-            canPlayerMove = false;
+            CanPlayerMove = false;
             playerRb.MovePosition(other.transform.position);
             RotateOnYAxis(focalPoint.transform.rotation.eulerAngles.y + 180);
             playerAnim.SetTrigger("Jump_trig");
@@ -262,7 +261,7 @@ public class PlayerController : MonoBehaviour
         powerupIndicator.gameObject.SetActive(false);
         StopCoroutine(FlyRoutine());
     }
-    
+
     IEnumerator FlyRoutine()
     {
         isFlying = true;

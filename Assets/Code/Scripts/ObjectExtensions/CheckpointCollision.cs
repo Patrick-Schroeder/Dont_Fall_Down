@@ -26,6 +26,6 @@ public class CheckpointCollision : MonoBehaviour
         ActivationMethods.ActivateObject(hintToActivate);
 
         PlayerController playerController = player.GetComponent<PlayerController>();
-        playerController.canPlayerMove = false;
+        playerController.CanPlayerMove = false;
     }
 }

@@ -36,7 +36,7 @@ public class OpenMenu : MonoBehaviour
             subMenu.gameObject.SetActive(false);
             UiManager.SetChildrenActive(subMenu, false);
 
-            playerController.canPlayerMove = true;
+            playerController.CanPlayerMove = true;
         }
         else
         {
@@ -44,7 +44,7 @@ public class OpenMenu : MonoBehaviour
             subMenu.gameObject.SetActive(true);
             UiManager.SetChildrenActive(subMenu, true);
 
-            playerController.canPlayerMove = false;
+            playerController.CanPlayerMove = false;
         }
     }
 }

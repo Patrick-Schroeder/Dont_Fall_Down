@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
         gameOverText.gameObject.SetActive(true);
         isGameActive = false;
-        playerController.canPlayerMove = false;
+        playerController.CanPlayerMove = false;
         ActivateMouse();
     }
 
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         temporaryScore = score;
 
         isGameActive = true;
-        playerController.canPlayerMove = true;
+        playerController.CanPlayerMove = true;
         playerAnim.SetBool("Death_b", false);
 
         subMenu.SetActive(false);
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     public virtual void StartGame(int difficulty)
     {
         isGameActive = true;
-        playerController.canPlayerMove = true;
+        playerController.CanPlayerMove = true;
         score = 0;
 
         LoadingData.difficulty = difficulty;
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
 
     public void ActivatePlayerMovement()
     {
-        playerController.canPlayerMove = true;
+        playerController.CanPlayerMove = true;
     }
 
     // Most of the time you won’t save everything inside your classes. It’s good practice and more efficient to use a small class that only contains the specific data that you want to save.
