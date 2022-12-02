@@ -1,21 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/NeverUnloadScene.unity
-  isLoaded: 1
-  isActive: 1
-  isSubScene: 0
 - path: Assets/Scenes/Intro.unity
   isLoaded: 1
-  isActive: 0
-  isSubScene: 0
-- path: Assets/Scenes/Tutorial.unity
-  isLoaded: 0
-  isActive: 0
-  isSubScene: 0
-- path: Assets/Scenes/Level 1.unity
-  isLoaded: 0
-  isActive: 0
-  isSubScene: 0
-- path: Assets/Scenes/Level 2.unity
-  isLoaded: 0
-  isActive: 0
+  isActive: 1
   isSubScene: 0

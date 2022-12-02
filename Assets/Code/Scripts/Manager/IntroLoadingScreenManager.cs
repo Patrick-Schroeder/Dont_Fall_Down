@@ -43,6 +43,17 @@ public class IntroLoadingScreenManager : MonoBehaviour
         loadingScreen.SetActive(true);
         yield return StartCoroutine(FadeLoadingScreen(1, fadeLoadingScreenInSecs));
 
+        AsyncOperation neverUnloadSceneOperation = SceneManager.LoadSceneAsync(LevelNames.NeverUnloadScene, LoadSceneMode.Additive);
+        while (!neverUnloadSceneOperation.isDone)
+        {
+            progressBar.value = Mathf.Clamp01(neverUnloadSceneOperation.progress / 0.9f);
+
+            float progressValue = Mathf.Clamp01(neverUnloadSceneOperation.progress / 0.9f);
+            percentageLoaded.text = Mathf.Round(progressValue * 100) + "%";
+
+            yield return null;
+        }
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(LevelNames.Tutorial, LoadSceneMode.Additive);
         while (!operation.isDone)
         {
@@ -56,6 +67,8 @@ public class IntroLoadingScreenManager : MonoBehaviour
 
         yield return StartCoroutine(FadeLoadingScreen(0, 1));
         loadingScreen.SetActive(false);
+
+        SceneManager.UnloadSceneAsync(LevelNames.Intro);
 
         LoadingData.isSceneInitialized = false;
     }
